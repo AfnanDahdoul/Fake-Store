@@ -26,49 +26,75 @@ const displayCategories = async() =>{
         loader.classList.remove("active");
     }
 }
-
-/* get the products from API */
-const getProducts = async() =>{
-    const { data } = await axios.get(`https://dummyjson.com/products`);
-    return data.products; // return products only 
-}
-/* display products */
-const displayProducts = async() =>{
-    /* when the data is still being loaded it will show the loading circle */
+/* get the products from the API */
+const getProducts = async (page) => {
+    const skip = ( page - 1 ) * 30;
+    const response = await axios.get(`https://dummyjson.com/products?limit=30&skip=${skip}`);
+    return response.data; // Return entire data object
+};
+/*display the products*/
+const displayProducts = async (page = 1) => {
     const loader = document.querySelector(".loader-container");
     loader.classList.add("active");
-    try{
-        const products = await getProducts();
-        const numberOfPages = Math.ceil(products.total/10);
-        console.log(numberOfPages);
-        console.log(products);
+
+    try {
+        const { products, total } = await getProducts(page); // Correct destructuring
+        const numberOfPages = Math.ceil(total / 30); // Now correctly calculates pages
+
+        console.log("Total Products:", total);
+        console.log("Number of Pages:", numberOfPages);
+        console.log("Products:", products);
+
+        // Render products
         const result = products.map((product) => {
             return `<div class="product">
-            <img src="${product.thumbnail}" alt="${product.description}"/>
-            <h3>${product.title}</h3>
-            <span>${product.price}</span>
+                <img src="${product.thumbnail}" alt="${product.description}" />
+                <h3>${product.title}</h3>
+                <span>$${product.price}</span>
             </div>`;
-        }).join(' ');
-    
+        }).join('');
+
         document.querySelector(".products .row").innerHTML = result;
-        //for the privious arrows
-        let paginationLink = `<li class="page-item"><a class="page-link" href="#">&laquo;</a></li>`;
-        //for the pages number
-        for (let i = 1; i < numberOfPages; i++){
-            paginationLink += `<li class="page-item"><a class="page-link" href="#">${i}</a></li>`;
+
+        // Render pagination
+        let paginationLink = ``;
+
+        //to decide whther to enable or disable the privious button
+        if (page == 1){
+            /* i have removed the onclick event */
+            paginationLink += `<li class="page-item"><button class="page-link" disabled>&laquo;</button></li>`;
         }
-        //for the next arrows
-        paginationLink += `<li class="page-item"><a class="page-link" href="#">&raquo;</a></li>`;
+        else{
+            paginationLink +=`<li class="page-item"><button onclick=displayProducts(${parseInt(page) - 1}) class="page-link">&laquo;</button></li>`;
+        }
+
+        /*create the other pages links */
+        for (let i = 1; i <= numberOfPages; i++) {
+            paginationLink += `<li class="page-item ${i == page ? 'active':''}"><button onclick=displayProducts(${i}) class="page-link">${i}</button></li>`;
+        }
+
+        //to decide whther to enable or disable the next button
+        if (page == 7){
+            /* i have removed the onclick event */
+            paginationLink += `<li class="page-item"><button class="page-link" disabled>&raquo;</button></li>`;
+        }
+        else{
+            paginationLink +=`<li class="page-item"><button onclick=displayProducts(${parseInt(page) + 1}) class="page-link" >&raquo;</button></li>`;
+        }
+        
         document.querySelector(".pagination").innerHTML = paginationLink;
-    }catch(error){
-        document.querySelector(".products .row").innerHTML = "<p> ERROR HAPPENED WHILE LOADING PRODUCTS:( </p>";
-    }finally{
+
+    } catch (error) {
+        console.error("Error fetching products:", error);
+        document.querySelector(".products .row").innerHTML = "<p> ERROR HAPPENED WHILE LOADING PRODUCTS :( </p>";
+    } finally {
         loader.classList.remove("active");
     }
+};
 
-}
-displayCategories();
 displayProducts();
+displayCategories();
+
 
 //for navbar scroll
 window.onscroll = function (){
