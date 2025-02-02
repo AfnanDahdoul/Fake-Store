@@ -1,0 +1,25 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+a{
+    text-decoration: none;
+}
+ul{
+    list-style-type: none;
+}
+button{
+    background-color: transparent;
+    border: none;
+}
+.container{
+    width: calc(100% - 120px );
+    margin: auto;
+}
+.row{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+/* end public style */
