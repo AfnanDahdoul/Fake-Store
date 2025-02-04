@@ -3,11 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Category Details</title>
-    <link rel="stylesheet" href="./assets/css/main.css"/>
+    <title>product details</title>
+    <link rel="stylesheet" href="./assets/css/main.css" />
 </head>
 <body>
-    <!--show the products in each category-->
+    <!-- for loading -->
+    <div class="loader-container">
+        <div class="loader">
+            
+        </div>
+     </div>
+
+    <!--start header-->
     <header class="header">
         <div class="container">
             <div class="row">
@@ -36,18 +43,25 @@
             </div>
         </div>
     </header>
-    <main>
-        <section class="products">
-            <div class="container">
-                <h2> </h2>
-                <div class="row">
 
+    <main>
+        <section class="product-details">
+            <div class="container">
+                <div class="row">
+                    <div class="detailsPart">
+                        <div class="picture">
+                            
+                        </div>
+                        <div class="details">
+    
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
-    <footer></footer>
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="./assets/js/categoryDetails.js"></script>
+    <script src="./assets/js/productDetails.js"></script>
 </body>
 </html>

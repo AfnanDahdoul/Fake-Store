@@ -30,17 +30,6 @@
     successfull it will stop the activation */
     display: flex;
 }
-.categories h2{
-    text-align: center;
-    padding: 30px 0px;
-}
-.products h2{
-    text-align: center;
-    padding: 30px 0px;
-}
-.products img{
-    width: 100px;
-}
 /*navbar design*/
 body{
     background-color: #F8FAFC;
@@ -81,7 +70,7 @@ img {
     color: #101928;
 }
 
-.navbar ul li .active {
+.navbar ul li .activate {
     font-weight: 800;
 }
 
@@ -111,6 +100,33 @@ img {
 .scrollNavbar{
     background-color: #9AA6B2;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+/* body design */
+.categories h2{
+    text-align: center;
+    padding: 30px 0px;
+}
+.products h2{
+    text-align: center;
+    padding: 30px 0px;
+}
+.products img{
+    width: 100px;
+}
+.product .price-discount{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 140px;
+}
+.product .price-discount span:first-of-type{
+    color: green;
+}
+.product .price-discount span:last-of-type{
+    color: crimson;
+}
+.product a{
+   color: #000; 
 }
 /* pagination style*/
 .pagination-container {
@@ -172,4 +188,82 @@ img {
     padding: 10px;
     border-radius: 5px;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+}
+/*My Modal*/
+.my-modal{
+    background-color: rgba(0, 0, 0, 0.7);
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.my-modal .myImage{
+    position: relative;
+    background-color: #fff;
+    padding: 60px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+.my-modal img {
+    width: 400px;
+}
+.right-btn, .left-btn, .close-btn{
+    position: absolute;
+    color: #fff;
+    font-size: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;/*change the shape of mouse pointer when its on theses parts*/
+}
+.right-btn{
+    right: 10px;
+    top: 50%;
+}
+.left-btn{
+    left: 10px;
+    top: 50%;
+}
+.close-btn{
+    top: 10px;
+    right: 10px;
+}
+.d-none{/*class to close my domal from the screen*/
+    display: none;
+}
+
+/*for product details page*/
+.product-details{
+    margin-top: 50px;
+}
+.product-details .detailsPart{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    background-color: #A6AEBF;
+    border-radius: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+.product-details .picture{
+    padding: 50px;
+}
+.product-details .picture img{
+    width: 500px;
+    height: 400px;
+}
+.product-details .details{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    font-size: medium;
+    color: #000;
+    background-color: #B0B7C8;
+    border-radius: 30px;
+    padding: 60px 17px;
+    margin-right: 50px;
 }

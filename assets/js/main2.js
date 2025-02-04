@@ -48,9 +48,13 @@ const displayProducts = async (page = 1) => {
         // Render products
         const result = products.map((product) => {
             return `<div class="product">
-                <img src="${product.thumbnail}" alt="${product.description}" />
+                <img src="${product.thumbnail}" alt="${product.description}" class = "images" /> 
                 <h3>${product.title}</h3>
-                <span>$${product.price}</span>
+                <div class="price-discount">
+                <span>Price: ${product.price}$</span>
+                <span>Discount: ${product.discountPercentage}% </span>
+                </div>
+                <a href="./productDetails.html?id=${product.id}" class="details-btn"> Product Details </a>
             </div>`;
         }).join('');
 
@@ -84,8 +88,9 @@ const displayProducts = async (page = 1) => {
         
         document.querySelector(".pagination").innerHTML = paginationLink;
 
+        modal();
+
     } catch (error) {
-        console.error("Error fetching products:", error);
         document.querySelector(".products .row").innerHTML = "<p> ERROR HAPPENED WHILE LOADING PRODUCTS :( </p>";
     } finally {
         loader.classList.remove("active");
@@ -94,10 +99,8 @@ const displayProducts = async (page = 1) => {
 
 displayProducts();
 displayCategories();
-
-
 //for navbar scroll
-window.onscroll = function (){
+/*window.onscroll = function (){
     const navbar = document.querySelector(".header");
     const products = document.querySelector(".products");
 
@@ -107,6 +110,20 @@ window.onscroll = function (){
     else{
         navbar.classList.remove("scrollNavbar");
     }
+}*/
+
+const handleNavbarScroll = () => {
+    window.onscroll = function (){
+        const navbar = document.querySelector(".header");
+        const products = document.querySelector(".products");
+    
+        if (window.scrollY > products.offsetTop){
+            navbar.classList.add("scrollNavbar");
+        }
+        else{
+            navbar.classList.remove("scrollNavbar");
+        }
+    }  
 }
 
 //for the count down timer
@@ -128,3 +145,70 @@ const countDown = () =>{
 setInterval( () => {
     countDown();
 }, 1000) // it will count every secound
+
+function modal(){
+    //1. Specify the elements that I'm going to work on it 
+    const modal = document.querySelector(".my-modal");
+    const leftBtn = document.querySelector(".left-btn");
+    const rightBtn = document.querySelector(".right-btn");
+    const closeBtn = document.querySelector(".close-btn");
+    const images = Array.from(document.querySelectorAll(".images")); // i added a class called images to the image of the products in displayProducts
+
+    //print them to make sure that every thing is okay
+    console.log(modal, leftBtn, rightBtn, closeBtn, images);
+
+    //2. specify when the event is going to happen 
+    //open the picture of the product when i click on it 
+    let currentIndex = 0;
+    images.forEach(function(img){
+        img.addEventListener("click", function(e){
+            modal.classList.remove("d-none");
+            modal.querySelector("img").setAttribute("src", e.target.src);
+
+            const currentImage = e.target;
+            currentIndex = images.indexOf(currentImage);
+            console.log(currentIndex);
+        })
+    })
+
+    //right button implementaion that will give me the next product photo 
+    rightBtn.addEventListener("click", function(){
+        currentIndex++;
+        if (currentIndex == images.length - 1){
+            currentIndex = 0;
+        }
+        const src = images[currentIndex].src; //get the source of the image
+        modal.querySelector("img").setAttribute("src", src);
+
+    });
+
+    //left button implementaion that will give me the previous product photo 
+    leftBtn.addEventListener("click", function (){
+        currentIndex--;
+        if (currentIndex == 0){
+            currentIndex = images.length - 1;
+        }
+        const src = images[currentIndex].src;
+        modal.querySelector("img").setAttribute("src", src);
+        
+    });
+
+    //close the modal when i click on the close button 
+    closeBtn.addEventListener("click", function(){
+        modal.classList.add("d-none");
+    });
+
+    document.addEventListener("keydown", function(e){
+        if (e.code == 'ArrowRight'){ //right arrow that do the same thing as right button
+            rightBtn.click(); //or by writing the same implementation of the right button
+        }else if (e.code == 'ArrowLeft'){//left arrow that do the same thing as left button
+            leftBtn.click(); //or by writing the same implementation of the right button
+        }else if (e.code == 'Escape'){///escape code do same thing as close button
+            closeBtn.click();
+        }
+    })
+
+
+}
+
+//export { getGategories, displayCategories, getProducts, displayProducts, handleNavbarScroll,countDown, modal };
